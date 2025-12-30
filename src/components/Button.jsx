@@ -7,7 +7,7 @@ export default function Button({
 }) {
   return (
     <button
-      className={`${width} ${height} text-2xl sm:text-3xl font-bold rounded-2xl cursor-pointer bg-[#FFFCD8] hover:bg-[#fbf4a7]`}
+      className={`${width} ${height} text-2xl sm:text-3xl font-bold rounded-xl cursor-pointer bg-[#FFFCD8] hover:bg-[#fbf4a7]`}
       style={{ color: color }}
       onClick={onClick}
     >
