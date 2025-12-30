@@ -6,7 +6,7 @@ export default function Button({
 }) {
   return (
     <button
-      className={`${width} ${height} text-3xl font-bold rounded-2xl cursor-pointer bg-[#FFFCD8] hover:bg-[#f7ee8d]`}
+      className={`${width} ${height} text-3xl font-bold rounded-2xl cursor-pointer bg-[#FFFCD8] hover:bg-[#fbf4a7]`}
       style={{color:color}}
     >
       {text}
