@@ -1,19 +1,26 @@
 import { IoIosArrowBack } from "react-icons/io";
 import { FaLightbulb } from "react-icons/fa6";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
+import useGuessNumber from "../hooks/useGuessNumber";
 export default function GuessNumber() {
-  const [attempts, setAttempts] = useState(10);
-  const [value, setValue] = useState("");
-  const [answer] = useState(() => Math.floor(Math.random() * 100) + 1);
-  const [isCorrect, setIsCorrect] = useState(false);
-  const [message, setMessage] = useState("");
-  const [shakeKey, setShakekey] = useState(0);
-  const [hasSubmitted, setHasSubmitted] = useState(false);
-
   const navigate = useNavigate();
+  const {
+    attempts,
+    answer,
+    value,
+    setValue,
+    isCorrect,
+    message,
+    hintCount,
+    setHintCount,
+    shakeKey,
+    handleSubmit,
+    hasSubmitted,
+    getHint,
+  } = useGuessNumber();
 
   console.log(answer);
 
@@ -22,38 +29,33 @@ export default function GuessNumber() {
       navigate("/guessnumber/result", {
         state: {
           message: `축하합니다! ${10 - attempts} 번 만에 정답을 맞혔습니다!🎉`,
+          success: true,
         },
       });
     } else if (attempts === 0 && !isCorrect) {
       navigate("/guessnumber/result", {
         state: {
-          message: `아쉽네요! 정답은 ${answer} 였습니다!`,
+          message: `아쉽네요! 정답은 ${answer} 이었습니다!`,
+          success: false,
         },
       });
     }
   }, [isCorrect, navigate, attempts, answer]);
 
-  const handleSubmit = () => {
-    if (value === "") return;
-
-    setHasSubmitted(true);
-
-    const numberValue = Number(value);
-
-    if (numberValue < 1 || numberValue > 100) {
-      setMessage("1부터 100 사이의 값을 입력해주세요");
+  const handleHintClick = () => {
+    if (attempts > 5) {
+      toast("⚠️ 힌트는 기회가 5번 이하일 때만 사용할 수 있어요");
       return;
     }
 
-    setAttempts((prev) => prev - 1);
-    if (numberValue === answer) {
-      setIsCorrect(true);
-    } else {
-      setMessage("아쉬워요! 다시 시도해보세요🥹");
-      setShakekey((prev) => prev + 1);
+    if (hintCount >= 3) {
+      toast("❌ 힌트를 모두 사용했어요");
+      return;
     }
 
-    setValue("");
+    const hint = getHint();
+    toast(hint);
+    setHintCount((prev) => prev + 1);
   };
 
   return (
@@ -65,10 +67,23 @@ export default function GuessNumber() {
         />
 
         <div className="flex items-center gap-5">
-          <FaLightbulb className="text-2xl sm:text-4xl text-yellow-400 cursor-pointer" />
+          <FaLightbulb
+            className={`
+              text-2xl sm:text-4xl
+              cursor-pointer
+              ${attempts <= 5 ? "text-yellow-400" : "text-gray-500"}
+            `}
+            onClick={handleHintClick}
+          />
           <div className="flex flex-col items-center sm:text-xl">
             <p>남은 횟수</p>
-            <p className="font-bold">{attempts}</p>
+            <p
+              className={`font-bold ${
+                attempts < 3 ? "text-red-400" : "text-black"
+              }`}
+            >
+              {attempts}
+            </p>
           </div>
         </div>
       </div>
