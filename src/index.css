@@ -1,29 +1,56 @@
 @import "tailwindcss";
 
 @font-face {
-    font-family: 'AvieSehyun';
-    src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_five@.2.0/UhBeeSe_hyun.woff') format('woff');
-    font-weight: normal;
-    font-display: swap;
+  font-family: "AvieSehyun";
+  src: url("https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_five@.2.0/UhBeeSe_hyun.woff")
+    format("woff");
+  font-weight: normal;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'JejuStoneWall';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-EF@1.0/EF_jejudoldam.woff2') format('woff2');
-    font-weight: normal;
-    font-display: swap;
+  font-family: "JejuStoneWall";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-EF@1.0/EF_jejudoldam.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-display: swap;
 }
 
 * {
   box-sizing: border-box;
-  font-family:'AvieSehyun';
+  font-family: "AvieSehyun";
 }
 
 body {
-  background-color: #C3EFFF;
+  background-color: #c3efff;
   margin: 0;
 }
 
 h1 {
-  font-family: 'JejuStoneWall';
+  font-family: "JejuStoneWall";
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-4px);
+  }
+  40% {
+    transform: translateX(4px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.shake {
+  animation: shake 0.3s ease-in-out;
 }
