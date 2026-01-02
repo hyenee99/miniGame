@@ -6,12 +6,32 @@ import Button from "../components/Button";
 export default function GuessNumber() {
   const [attempts, setAttempts] = useState(10);
   const [value, setValue] = useState("");
+  const [answer] = useState(() => Math.floor(Math.random() * 100) + 1);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+  const handleSubmit = () => {
+    if (value === "") return;
+    const numberValue = Number(value);
+
+    if (numberValue < 1 || numberValue > 100) {
+      setMessage("1부터 100 사이의 값을 입력해주세요");
+      return;
+    }
+
+    if (numberValue === answer) {
+      setIsCorrect(true);
+    } else {
+      setAttempts((prev) => prev - 1);
+      setMessage("아쉬워요! 다시 시도해보세요🥹");
+    }
+
+    setValue("");
+  };
+
   return (
-    // ⭐ 전체를 column flex로
     <div className="min-h-screen flex flex-col">
-      {/* 상단 헤더 */}
       <div className="flex w-full justify-between items-center p-3 sm:p-5">
         <IoIosArrowBack
           className="text-2xl sm:text-4xl cursor-pointer"
@@ -34,7 +54,13 @@ export default function GuessNumber() {
           당신의 추리력은?
         </p>
 
-        <div className="w-full flex gap-3 justify-center">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+          className="w-full flex gap-3 justify-center"
+        >
           <input
             type="number"
             min={1}
@@ -44,8 +70,12 @@ export default function GuessNumber() {
             className="p-3 rounded-md bg-white w-[70%] h-12 sm:w-[30%]"
             placeholder="숫자를 입력하세요"
           />
-          <Button text="▶" width="w-12" height="h-12" />
-        </div>
+          <Button text="▶" width="w-12" height="h-12" type="submit" />
+        </form>
+        {!isCorrect && message && (
+          <p className="text-red-400 text-sm">{message}</p>
+        )}
+        {isCorrect && <p className="text-red-500 mt-3">정답</p>}
       </div>
     </div>
   );
