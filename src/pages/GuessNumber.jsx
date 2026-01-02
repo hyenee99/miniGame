@@ -3,6 +3,7 @@ import { FaLightbulb } from "react-icons/fa6";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
+import { useEffect } from "react";
 export default function GuessNumber() {
   const [attempts, setAttempts] = useState(10);
   const [value, setValue] = useState("");
@@ -10,6 +11,24 @@ export default function GuessNumber() {
   const [isCorrect, setIsCorrect] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+
+  console.log(answer);
+
+  useEffect(() => {
+    if (isCorrect) {
+      navigate("/guessnumber/result", {
+        state: {
+          message: `축하합니다! ${10 - attempts} 번 만에 정답을 맞혔습니다!🎉`,
+        },
+      });
+    } else if (attempts === 0 && !isCorrect) {
+      navigate("/guessnumber/result", {
+        state: {
+          message: `아쉽네요! 정답은 ${answer} 였습니다!`,
+        },
+      });
+    }
+  }, [isCorrect, navigate, attempts, answer]);
 
   const handleSubmit = () => {
     if (value === "") return;
@@ -20,10 +39,10 @@ export default function GuessNumber() {
       return;
     }
 
+    setAttempts((prev) => prev - 1);
     if (numberValue === answer) {
       setIsCorrect(true);
     } else {
-      setAttempts((prev) => prev - 1);
       setMessage("아쉬워요! 다시 시도해보세요🥹");
     }
 
@@ -48,7 +67,7 @@ export default function GuessNumber() {
       </div>
 
       <div className="flex flex-col gap-5 items-center justify-center flex-1">
-        <p className="sm:text-xl text-center leading-relaxed">
+        <p className="sm:text-3xl text-center leading-relaxed">
           1부터 100 사이 숫자를 맞혀보세요!
           <br />
           당신의 추리력은?
@@ -75,7 +94,6 @@ export default function GuessNumber() {
         {!isCorrect && message && (
           <p className="text-red-400 text-sm">{message}</p>
         )}
-        {isCorrect && <p className="text-red-500 mt-3">정답</p>}
       </div>
     </div>
   );

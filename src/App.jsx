@@ -3,6 +3,7 @@ import Mainpage from "./pages/MainPage";
 import Layout from "./Layout";
 import Selectpage from "./pages/SelectPage";
 import GuessNumber from "./pages/GuessNumber";
+import ResultPage from "./pages/ResultPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Mainpage />} />
           <Route path="/select" element={<Selectpage />} />
+          <Route path="/guessnumber/result" element={<ResultPage />} />
         </Route>
 
         {/* 레이아웃 적용하지 않는 페이지 */}
