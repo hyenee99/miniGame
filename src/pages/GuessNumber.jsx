@@ -10,6 +10,9 @@ export default function GuessNumber() {
   const [answer] = useState(() => Math.floor(Math.random() * 100) + 1);
   const [isCorrect, setIsCorrect] = useState(false);
   const [message, setMessage] = useState("");
+  const [shakeKey, setShakekey] = useState(0);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
   const navigate = useNavigate();
 
   console.log(answer);
@@ -32,6 +35,9 @@ export default function GuessNumber() {
 
   const handleSubmit = () => {
     if (value === "") return;
+
+    setHasSubmitted(true);
+
     const numberValue = Number(value);
 
     if (numberValue < 1 || numberValue > 100) {
@@ -44,6 +50,7 @@ export default function GuessNumber() {
       setIsCorrect(true);
     } else {
       setMessage("아쉬워요! 다시 시도해보세요🥹");
+      setShakekey((prev) => prev + 1);
     }
 
     setValue("");
@@ -81,12 +88,21 @@ export default function GuessNumber() {
           className="w-full flex gap-3 justify-center"
         >
           <input
+            key={shakeKey}
             type="number"
-            min={1}
-            max={100}
             value={value}
-            onChange={(e) => setValue(e.target.value)}
-            className="p-3 rounded-md bg-white w-[70%] h-12 sm:w-[30%]"
+            onChange={(e) => {
+              setValue(e.target.value);
+            }}
+            className={`
+              p-3 rounded-md bg-white w-[70%] h-12 sm:w-[30%]
+              transition
+              ${
+                hasSubmitted && !isCorrect
+                  ? "border-2 border-red-400 shake"
+                  : "border border-gray-300"
+              }
+          `}
             placeholder="숫자를 입력하세요"
           />
           <Button text="▶" width="w-12" height="h-12" type="submit" />
