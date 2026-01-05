@@ -11,7 +11,11 @@ export default function Selectpage() {
         color="#1F2937"
         onClick={() => navigate("/guessnumber")}
       />
-      <Button text="반응 속도 테스트" color="#1F2937" />
+      <Button
+        text="반응 속도 테스트"
+        color="#1F2937"
+        onClick={() => navigate("/reactiontime")}
+      />
       <Button text="상식 퀴즈" color="#1F2937" />
     </div>
   );
