@@ -3,7 +3,7 @@ import useReactionTime from "../hooks/useReactionTime";
 
 export default function ReactionTime() {
   const total = 5;
-  const { current, status, handleClick } = useReactionTime(total);
+  const { current, status, records, handleClick } = useReactionTime(total);
 
   const bgMap = {
     idle: "bg-[#EDEDED]",
@@ -38,8 +38,9 @@ export default function ReactionTime() {
   return (
     <div className="min-h-screen flex flex-col">
       <ProgressBar current={current} total={total} />
+      {/* 클릭 영역 */}
       <div
-        className={`rounded-md h-[50%] flex-2 mx-3 text-center flex items-center justify-center p-3 cursor-pointer
+        className={`rounded-md h-[60vh] mx-3 text-center flex items-center justify-center p-3 cursor-pointer
         ${bgMap[status]}
         `}
         onClick={handleClick}
@@ -48,7 +49,18 @@ export default function ReactionTime() {
           {messageMap[status]}
         </div>
       </div>
-      <div className="flex-1">결과 화면</div>
+      {/* 결과 화면 */}
+      <div className="flex-1 p-3">
+        {records.length === 0 && <p>아직 기록이 없습니다.</p>}
+
+        <ul className="space-y-1 sm:text-xl">
+          {records.map((time, idx) => (
+            <li key={idx}>
+              {idx + 1}회차: {time} ms
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

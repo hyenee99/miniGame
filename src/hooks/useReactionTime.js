@@ -6,6 +6,7 @@ export default function useReactionTime(total) {
   const [status, setStatus] = useState("idle");
   const timeoutRef = useRef(null);
   const startTimeRef = useRef(null);
+  const [records, setRecords] = useState([]);
 
   const startGame = () => {
     setStatus("ready");
@@ -33,9 +34,9 @@ export default function useReactionTime(total) {
 
     if (status === "go") {
       // 시작 상태
+      setRecords((prev) => [...prev, reactionTime]);
       setCurrent((prev) => prev + 1);
       const reactionTime = Date.now() - startTimeRef.current;
-      console.log("반응속도:", reactionTime);
       startGame();
     }
   };
@@ -44,5 +45,6 @@ export default function useReactionTime(total) {
     current,
     status,
     handleClick,
+    records,
   };
 }
