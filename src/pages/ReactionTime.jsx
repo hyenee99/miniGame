@@ -1,9 +1,12 @@
+import { useEffect } from "react";
 import ProgressBar from "../components/ProgressBar";
 import useReactionTime from "../hooks/useReactionTime";
+import { useNavigate } from "react-router-dom";
 
 export default function ReactionTime() {
   const total = 5;
   const { current, status, records, handleClick } = useReactionTime(total);
+  const navigate = useNavigate();
 
   const bgMap = {
     idle: "bg-[#EDEDED]",
@@ -34,6 +37,12 @@ export default function ReactionTime() {
       </div>
     ),
   };
+
+  useEffect(() => {
+    if (current === total) {
+      navigate("/reactiontime/result", { state: { records: records } });
+    }
+  }, [current, total, navigate, records]);
 
   return (
     <div className="min-h-screen flex flex-col">

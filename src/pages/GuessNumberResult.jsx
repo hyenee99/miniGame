@@ -1,10 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
-import Button from "../components/Button";
 import GameResultActions from "../components/GameResultActions";
 
-export default function ResultPage() {
+export default function GuessNumberResult() {
   const location = useLocation();
   const navigate = useNavigate();
   const { message, success } = location.state;

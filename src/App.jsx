@@ -3,9 +3,10 @@ import Mainpage from "./pages/MainPage";
 import Layout from "./Layout";
 import Selectpage from "./pages/SelectPage";
 import GuessNumber from "./pages/GuessNumber";
-import ResultPage from "./pages/ResultPage";
+import GuessNumberResult from "./pages/GuessNumberResult";
 import { Toaster } from "react-hot-toast";
 import ReactionTime from "./pages/ReactionTime";
+import ReactionTimeResult from "./pages/ReactionTimeResult";
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Mainpage />} />
           <Route path="/select" element={<Selectpage />} />
-          <Route path="/guessnumber/result" element={<ResultPage />} />
+          <Route path="/guessnumber/result" element={<GuessNumberResult />} />
+          <Route path="/reactiontime/result" element={<ReactionTimeResult />} />
         </Route>
 
         {/* 레이아웃 적용하지 않는 페이지 */}
