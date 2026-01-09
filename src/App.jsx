@@ -7,6 +7,7 @@ import GuessNumberResult from "./pages/GuessNumberResult";
 import { Toaster } from "react-hot-toast";
 import ReactionTime from "./pages/ReactionTime";
 import ReactionTimeResult from "./pages/ReactionTimeResult";
+import QuizPage from "./pages/QuizPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/select" element={<Selectpage />} />
           <Route path="/guessnumber/result" element={<GuessNumberResult />} />
           <Route path="/reactiontime/result" element={<ReactionTimeResult />} />
+          <Route path="/quiz" element={<QuizPage />} />
         </Route>
 
         {/* 레이아웃 적용하지 않는 페이지 */}
