@@ -154,7 +154,7 @@ export const Questions = [
     id: 24,
     type: "subjective",
     question: "대한민국 국회의원의 임기는 몇 년일까요?",
-    answer: "4년",
+    answer: "4",
   },
   {
     id: 25,
