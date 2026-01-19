@@ -15,6 +15,7 @@ export default function QuizPage() {
   const [userAnswer, setUserAnswer] = useState("");
   const [isCorrect, setIsCorrect] = useState(null);
   const [correctCnt, setCorrectCnt] = useState(0);
+  const [error, setError] = useState("");
 
   const currentQuestion = questions[currentIndex];
   const rate = Math.round((correctCnt / questions.length) * 100);
@@ -33,6 +34,14 @@ export default function QuizPage() {
   };
 
   const handleSubmit = (answer) => {
+    if (currentQuestion.type === "subjective") {
+      if (!answer || answer.trim() === "") {
+        setError("답을 입력해주세요!");
+        return;
+      }
+    }
+    setError("");
+
     const correct = checkAnswer(answer);
     setIsCorrect(correct);
 
@@ -92,6 +101,7 @@ export default function QuizPage() {
               />
             </div>
           )}
+          {error && <p className="text-sm text-red-500">{error}</p>}
 
           {/* 객관식인 경우 */}
           {currentQuestion.type === "objective" && (
