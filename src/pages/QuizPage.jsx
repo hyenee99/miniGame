@@ -1,75 +1,22 @@
-import { useState } from "react";
-import { Questions } from "../data/questions";
-import { getRandomQuestions } from "../utils/randomQuestions";
 import Button from "../components/Button";
 import QuizResult from "../components/QuizResult";
-import { quizResultTexts } from "../utils/quizResultText";
 import QuizFinal from "../components/QuizFinal";
+import { useQuiz } from "../hooks/useQuiz";
 
 export default function QuizPage() {
-  const [questions, setQuestions] = useState(() =>
-    getRandomQuestions(Questions, 10)
-  );
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [phase, setPhase] = useState("question"); // "question" | "result" | "final"
-  const [userAnswer, setUserAnswer] = useState("");
-  const [isCorrect, setIsCorrect] = useState(null);
-  const [correctCnt, setCorrectCnt] = useState(0);
-  const [error, setError] = useState("");
-
-  const currentQuestion = questions[currentIndex];
-  const rate = Math.round((correctCnt / questions.length) * 100);
-  const resultText = quizResultTexts.find((r) => rate >= r.min).text;
-  const percentile = 100 - rate;
-  console.log(questions);
-
-  const checkAnswer = (userAnswer) => {
-    if (currentQuestion.type === "subjective") {
-      const normalize = (v) => v.trim().replace(/\s+/g, "").toLowerCase();
-
-      return normalize(currentQuestion.answer) === normalize(userAnswer);
-    }
-
-    return currentQuestion.answer === userAnswer;
-  };
-
-  const handleSubmit = (answer) => {
-    if (currentQuestion.type === "subjective") {
-      if (!answer || answer.trim() === "") {
-        setError("답을 입력해주세요!");
-        return;
-      }
-    }
-    setError("");
-
-    const correct = checkAnswer(answer);
-    setIsCorrect(correct);
-
-    if (correct) {
-      setCorrectCnt((prev) => prev + 1);
-    }
-    setPhase("result");
-  };
-
-  const handleNext = () => {
-    if (currentIndex + 1 === questions.length) {
-      setPhase("final");
-    } else {
-      setCurrentIndex((prev) => prev + 1);
-      setUserAnswer("");
-      setIsCorrect(null);
-      setPhase("question");
-    }
-  };
-
-  const resetQuiz = () => {
-    setQuestions(getRandomQuestions(Questions, 10)); // ← 여기서만
-    setCurrentIndex(0);
-    setCorrectCnt(0);
-    setUserAnswer("");
-    setIsCorrect(null);
-    setPhase("question");
-  };
+  const {
+    phase,
+    userAnswer,
+    setUserAnswer,
+    isCorrect,
+    error,
+    currentQuestion,
+    percentile,
+    resultText,
+    handleSubmit,
+    handleNext,
+    resetQuiz,
+  } = useQuiz();
 
   return (
     <div className="flex flex-col gap-10 items-center w-full p-3 text-center">
