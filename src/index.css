@@ -54,3 +54,19 @@ h1 {
 .shake {
   animation: shake 0.3s ease-in-out;
 }
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.blink {
+  animation: blink 1.2s ease-in-out infinite;
+}

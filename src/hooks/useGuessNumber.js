@@ -9,6 +9,8 @@ export default function useGuessNumber() {
   const [shakeKey, setShakekey] = useState(0);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [hintCount, setHintCount] = useState(0); // 사용한 힌트 횟수
+  const [upDownHint, setUpDownHint] = useState(null);
+  const [history, setHistory] = useState([]);
 
   const getHint = () => {
     if (hintCount === 0) {
@@ -31,6 +33,7 @@ export default function useGuessNumber() {
   };
 
   const handleSubmit = () => {
+    setMessage("");
     if (value === "") return;
 
     setHasSubmitted(true);
@@ -46,7 +49,15 @@ export default function useGuessNumber() {
     if (numberValue === answer) {
       setIsCorrect(true);
     } else {
-      setMessage("아쉬워요! 다시 시도해보세요🥹");
+      setHistory((prev) => [
+        {
+          value: numberValue,
+          result: numberValue > answer ? "Down!" : "Up!",
+        },
+        ...prev,
+      ]);
+
+      if (numberValue > answer ? setUpDownHint("Down!") : setUpDownHint("Up!"));
       setShakekey((prev) => prev + 1);
     }
 
@@ -66,5 +77,7 @@ export default function useGuessNumber() {
     handleSubmit,
     hasSubmitted,
     getHint,
+    upDownHint,
+    history,
   };
 }
