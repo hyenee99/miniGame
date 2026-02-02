@@ -21,6 +21,7 @@ export default function GuessNumber() {
     hasSubmitted,
     getHint,
     upDownHint,
+    history,
   } = useGuessNumber();
 
   console.log(answer);
@@ -63,7 +64,7 @@ export default function GuessNumber() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="h-screen flex flex-col">
       <div className="flex w-full justify-between items-center p-3 sm:p-5">
         <IoIosArrowBack
           className="text-2xl sm:text-4xl cursor-pointer"
@@ -92,28 +93,30 @@ export default function GuessNumber() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-5 items-center justify-center flex-1">
-        <p className="sm:text-3xl text-center leading-relaxed">
-          1부터 100 사이 숫자를 맞혀보세요!
-          <br />
-          당신의 추리력은?
-        </p>
+      <div className="flex flex-col h-full">
+        {/* 게임 ui 영역 */}
+        <div className="flex flex-col flex-7 gap-5 items-center justify-center">
+          <p className="sm:text-3xl text-center leading-relaxed">
+            1부터 100 사이 숫자를 맞혀보세요!
+            <br />
+            당신의 추리력은?
+          </p>
 
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit();
-          }}
-          className="w-full flex gap-3 justify-center"
-        >
-          <input
-            key={shakeKey}
-            type="number"
-            value={value}
-            onChange={(e) => {
-              setValue(e.target.value);
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit();
             }}
-            className={`
+            className="w-full flex gap-3 justify-center"
+          >
+            <input
+              key={shakeKey}
+              type="number"
+              value={value}
+              onChange={(e) => {
+                setValue(e.target.value);
+              }}
+              className={`
               p-3 rounded-md bg-white w-[70%] h-12 sm:w-[30%]
               transition
               ${
@@ -122,27 +125,43 @@ export default function GuessNumber() {
                   : "border border-gray-300"
               }
           `}
-            placeholder="숫자를 입력하세요"
-          />
-          <Button text="▶" width="w-12" height="h-12" type="submit" />
-        </form>
-        {!isCorrect && (
-          <>
-            {message ? (
-              <p className="text-red-400 text-sm">{message}</p>
-            ) : (
-              upDownHint && (
-                <p
-                  className={`text-ml font-semibold ${
-                    upDownHint === "Up!" ? "text-blue-400" : "text-red-400"
-                  }`}
-                >
-                  {upDownHint}
-                </p>
-              )
-            )}
-          </>
-        )}
+              placeholder="숫자를 입력하세요"
+            />
+            <Button text="▶" width="w-12" height="h-12" type="submit" />
+          </form>
+          {!isCorrect && (
+            <>
+              {message ? (
+                <p className="text-red-400 text-sm">{message}</p>
+              ) : (
+                upDownHint && (
+                  <p
+                    className={`text-ml font-semibold ${
+                      upDownHint === "Up!" ? "text-blue-400" : "text-red-400"
+                    }`}
+                  >
+                    {upDownHint}
+                  </p>
+                )
+              )}
+            </>
+          )}
+        </div>
+
+        {/* 기록 영역 */}
+        <div className="flex flex-col flex-3 gap-1 p-3 text-center sm:text-lg">
+          <p className="font-semibold mb-2 text-left text-gray-500 sm:text-xl ">
+            🎯최근 시도
+          </p>
+          <ul>
+            {history.slice(0, 5).map((item, idx) => (
+              <li key={idx} className="flex gap-2">
+                <span className="w-[6%] sm:w-[3%]">{item.value}</span>
+                <span>{item.result === "Up!" ? "🔼" : "🔽"}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
