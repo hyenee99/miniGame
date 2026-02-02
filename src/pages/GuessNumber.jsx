@@ -26,6 +26,9 @@ export default function GuessNumber() {
   console.log(answer);
 
   useEffect(() => {
+    if (!isCorrect && attempts === 5) {
+      toast("💡 이제 힌트를 사용할 수 있어요!");
+    }
     if (isCorrect) {
       navigate("/guessnumber/result", {
         state: {
@@ -72,7 +75,7 @@ export default function GuessNumber() {
             className={`
               text-2xl sm:text-4xl
               cursor-pointer
-              ${attempts <= 5 ? "text-yellow-400" : "text-gray-500"}
+              ${attempts <= 5 && hintCount < 3 ? "text-yellow-400 blink cursor-pointer" : "text-gray-500"}
             `}
             onClick={handleHintClick}
           />
