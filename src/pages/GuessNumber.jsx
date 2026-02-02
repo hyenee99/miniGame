@@ -20,6 +20,7 @@ export default function GuessNumber() {
     handleSubmit,
     hasSubmitted,
     getHint,
+    upDownHint,
   } = useGuessNumber();
 
   console.log(answer);
@@ -122,8 +123,22 @@ export default function GuessNumber() {
           />
           <Button text="▶" width="w-12" height="h-12" type="submit" />
         </form>
-        {!isCorrect && message && (
-          <p className="text-red-400 text-sm">{message}</p>
+        {!isCorrect && (
+          <>
+            {message ? (
+              <p className="text-red-400 text-sm">{message}</p>
+            ) : (
+              upDownHint && (
+                <p
+                  className={`text-ml font-semibold ${
+                    upDownHint === "Up!" ? "text-blue-400" : "text-red-400"
+                  }`}
+                >
+                  {upDownHint}
+                </p>
+              )
+            )}
+          </>
         )}
       </div>
     </div>
