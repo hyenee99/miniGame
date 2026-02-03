@@ -5,6 +5,7 @@ import { useQuiz } from "../hooks/useQuiz";
 
 export default function QuizPage() {
   const {
+    currentIndex,
     phase,
     userAnswer,
     setUserAnswer,
@@ -23,7 +24,7 @@ export default function QuizPage() {
       {phase === "question" && (
         <>
           <h2 className="text-xl sm:text-2xl leading-relaxed">
-            {currentQuestion.question}
+            Q{currentIndex + 1}. {currentQuestion.question}
           </h2>
           {/* 주관식인 경우 */}
           {currentQuestion.type === "subjective" && (
