@@ -69,6 +69,7 @@ export function useQuiz() {
   };
 
   return {
+    currentIndex,
     phase,
     userAnswer,
     isCorrect,
